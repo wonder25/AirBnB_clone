@@ -3,10 +3,8 @@
 BaseModel Module
 """
 
-import sys
+import datetime
 import uuid
-from datetime import datetime
-import models
 
 class BaseModel:
     """
