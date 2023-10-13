@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 """
-BaseModel module
+BaseModel Module
 """
 
+import sys
 import uuid
-import datetime
+from datetime import datetime
+import models
 
 class BaseModel:
     """

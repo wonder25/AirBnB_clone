@@ -5,6 +5,8 @@ test base_model
 
 import unittest
 from models.base_model import BaseModel
+from uuid import UUID
+from datetime import datetime
 
 
 class TestBaseModel_instantiation(unittest.TestCase):
