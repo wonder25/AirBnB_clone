@@ -3,11 +3,14 @@
 FileStorage Module
 """
 
-import sys
-import models
 from models.base_model import BaseModel
+from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
 import json
-import os
 
 
 class FileStorage:
@@ -26,37 +29,33 @@ class FileStorage:
         """
         sets in __objects the obj with key <obj class name>.id
         """
-        self.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
+        class_name = obj.__class__.__name__
+        self.__objects[f"{class_name}.{obj.id}"] = obj
 
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
-        new_dict = {}
+        non_ser_dict = self.__objects
+        ser_dict = {}
 
-    for key, val in self.__objects.items():
-        new_dict[key] = val.to_dict()
+        for obj_id in non_ser_dict.keys():
+            ser_dict[obj_id] = non_ser_dict[obj_id].to_dict()
 
-        with open(self.__file_path, 'w', encoding='utf-8') as fobj:
-            json.dump(new_dict, fobj, indent=2)
-
-        """
-        new_dict = {}
-
-        for key in self.__objects.keys():
-            new_dict[key] = self.__objects[key].to_dict()
-
-        with open(self.__file_path, 'w') as fobj:
-            json.dump(new_dict, fobj)
-        """
+        with open(self.__file_path, 'w', encoding='utf-8') as json_file:
+            json.dump(ser_dict, json_file)
 
     def reload(self):
         """
         deserializes the JSON file to __objects
         """
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r', encoding='utf-8') as pobj:
-                py_obj = json.load(pobj)
-                for values in py_obj.value():
+        try:
+            with open(self.__file_path) as json_file:
+                ser_dict = json.load(json_file)
+                for values in ser_dict.values():
                     cls_name = values["__class__"]
+                    del values["__class__"]
                     self.new(eval(cls_name)(**values))
+
+        except FileNotFoundError:
+            return
