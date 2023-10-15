@@ -1,18 +1,21 @@
 #!/usr/bin/python3
 """
-BaseModel module
+BaseModel Module
 """
 
-import uuid
 import datetime
+import uuid
+
 
 class BaseModel:
     """
+    Class Docs
     Defines all common attributes
     """
     def __init__(self, *args, **kwargs):
 
         """
+        Docs
         Object initialiser
         """
         from models import storage
@@ -34,6 +37,7 @@ class BaseModel:
     def __str__(self):
 
         """
+        Docs
         Prints the string rep of the object
         """
 
@@ -41,6 +45,7 @@ class BaseModel:
 
     def save(self):
         """
+        Docs
         updates when the object is modified
         """
 
@@ -50,6 +55,7 @@ class BaseModel:
 
     def to_dict(self):
         """
+        Docs
         Returns a dictionary rep of the object
         """
 
