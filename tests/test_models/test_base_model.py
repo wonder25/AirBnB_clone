@@ -5,55 +5,45 @@ import unittest
 from models.base_model import BaseModel
 
 
-class TestBaseModel_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the BaseModel class."""
+class TestBaseModel(unittest.TestCase):
+    def test_new_instance(self):
+        my_model = BaseModel()
+        result = my_model
+        self.assertIsInstance(result, BaseModel)
 
-    def setUp(self):
-        """Set up method for object BM of BAseModel"""
-        self.BM = BaseModel()
+    def test_attributes_initialization(self):
+        my_model = BaseModel()
+        attributes = my_model.__dict__.keys()
+        self.assertIn('id', attributes)
+        self.assertIn('created_at', attributes)
+        self.assertIn('updated_at', attributes)
 
-    def test_module_docstring(self):
-        """
-        Tests if module docstring documentation exist
-        """
-        self.assertTrue(len(BaseModel.__doc__) >= 1)
-
-    def test_class_docstring(self):
-        """
-        Tests if class docstring documentation exist
-        """
-        self.assertTrue(len(BaseModel.__doc__) >= 1)
-
-    def test_no_args_instantiates(self):
-        """test is basemodel is an instance of Basemodel"""
-        self.assertEqual(BaseModel, type(BaseModel()))
-
-    def test_id_is_public_str(self):
-        """test if id is a string"""
-        self.assertEqual(str, type(BaseModel().id))
-
-    def test_unique_id(self):
-        """test for id in BaseModel objects
-        """
-        BM1 = BaseModel()
-        BM2 = BaseModel()
-        self.assertNotEqual(self.BM.id, BM1.id)
-        self.assertNotEqual(self.BM.id, BM2.id)
+    def test_str_method(self):
+        my_model = BaseModel()
+        exp_str = f"[BaseModel] ({my_model.id}) {my_model.__dict__}"
+        result_str = str(my_model)
+        self.assertEqual(result_str, exp_str)
 
     def test_save_method(self):
         my_model = BaseModel()
-        original_updated_at = my_model.updated_at
+        current_updated_at = my_model.updated_at
+
         my_model.save()
         new_updated_at = my_model.updated_at
-        self.assertNotEqual(original_updated_at, new_updated_at)
 
-    def test_basic_attribute_set(self):
-        """test method for basic attribute assignment
-        """
-        self.BM.first_name = 'Shawn'
-        self.BM.last_name = 'Mwinzi'
-        self.assertEqual(self.BM.first_name, 'Shawn')
-        self.assertEqual(self.BM.last_name, 'Mwinzi')
+        self.assertNotEqual(current_updated_at, new_updated_at)
+
+    def test_to_dict_method(self):
+        my_model = BaseModel()
+
+        final_dict = my_model.to_dict()
+
+        self.assertIsInstance(final_dict, dict)
+        self.assertIn('id', final_dict)
+        self.assertIn('__class__', final_dict)
+        self.assertIn('created_at', final_dict)
+        self.assertIn('updated_at', final_dict)
+
 
 
 if __name__ == "__main__":
