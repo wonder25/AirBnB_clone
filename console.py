@@ -146,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
         inside_quotes = False
 
         for char in line:
-            if char == '':
+            if char == '"':
                 inside_quotes = not inside_quotes
             elif char == ' ' and not inside_quotes:
                 if current_arg:
@@ -197,7 +197,7 @@ class HBNBCommand(cmd.Cmd):
             return
 
         attribute_name = args[2]
-        attribute_name = args[3]
+        attribute_value = args[3]
         instance = models.storage.all()[key]
 
         try:

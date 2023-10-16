@@ -31,7 +31,7 @@ class TestCity(unittest.TestCase):
         current_updated_at = self.city.updated_at
         self.city.save()
         new_updated_at = self.city.updated_at
-        self.assertNotEqual(old_updated_at, new_updated_at)
+        self.assertNotEqual(current_updated_at, new_updated_at)
 
 if __name__ == "__main__":
     unittest.main()
