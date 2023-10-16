@@ -7,66 +7,50 @@ import models
 from uuid import uuid4
 from datetime import datetime
 
-
 class BaseModel:
     """
-    Class Docs
-    Defines all common attributes
+    class BaseModel
     """
     def __init__(self, *args, **kwargs):
-
         """
-        Docs
-        Object initialiser
+        Constructor method
         """
         from models import storage
-        if kwargs:
-            for a, b in kwargs.items():
-                if a in ("created_at", "updated_at"):
-                    self.__dict__[a] = datetime.datetime.\
-                            strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
-                elif a == "__class__":
+        if len(kwargs) == 0:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
+            storage.new(self)
+        else:
+            for key, value in kwargs.items():
+                if key == '__class__':
                     continue
+                elif key == 'created_at' or key == 'updated_at':
+                    setattr(self, key, datetime.fromisoformat(value))
                 else:
-                    self.__dict__[a] = b
-
-        self.id = str = str(uuid.uuid4())
-        self.created_at = darerime.datetime.now()
-        self.updated_at = datetime.datetime.now()
-        storage.new(self)
+                    setattr(self, key, value)
 
     def __str__(self):
-
         """
-        Docs
-        Prints the string rep of the object
+        string representation
         """
-
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        class_name = self.__class__.__name__
+        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
 
     def save(self):
         """
-        Docs
-        updates when the object is modified
+        updates attr updated_at with current time
         """
-
         from models import storage
-        self.updated_at = datetime.datetime.now()
+        self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
         """
-        Docs
-        Returns a dictionary rep of the object
+        returns dictionary of key values of instance
         """
-
-        dict = {}
-        dict["__class__"] = self.__class__.__name__
-
-        for a, b in self.__dict__.items():
-            if isinstance(b, datetime.datetime):
-                b = b.isoformat()
-                dict[a] = b
-            dict[a] = b
-
-        return dict
+        my_dict = self.__dict__.copy()
+        my_dict['created_at'] = self.created_at.isoformat()
+        my_dict['updated_at'] = self.updated_at.isoformat()
+        my_dict['__class__'] = self.__class__.__name__
+        return my_dict
