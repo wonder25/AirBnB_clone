@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
             objects = models.storage.all()
             class_instances = [
                     str(instance) for instance in objects.values()
-                    if type(instances).__name__ == line]
+                    if type(instance).__name__ == line]
             print(class_instances)
         elif not line:
             objects = models.storage.all()
