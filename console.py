@@ -142,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
         Function for update splits classname and id
         """
         args = []
-        current_arg = ''
+        current_arg = ""
         inside_quotes = False
 
         for char in line:
@@ -260,6 +260,3 @@ class HBNBCommand(cmd.Cmd):
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
-
-

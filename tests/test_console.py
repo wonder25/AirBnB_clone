@@ -202,7 +202,7 @@ class TestHBNBCommand(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.cmd.onecmd('show InvalidClass')
             output = fake_out.getvalue().strip()
-            self.assertEqual(output, '** class doesn\'t exist **')
+            self.assertEqual(output, "** class doesn\'t exist **")
 
     def test_show_command_missing_instance_id(self):
         classes = [
