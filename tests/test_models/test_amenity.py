@@ -1,14 +1,11 @@
 #!/usr/bin/python3
 """unittests for amenity class"""
 
-import os
-import models
 import unittest
-from datetime import datetime
 from models.amenity import Amenity
 
 
-class TestUser(unittest.TestCase):
+class TestAmenity(unittest.TestCase):
     '''Unit tests for the Amenity class'''
 
     def tearDown(cls) -> None:
