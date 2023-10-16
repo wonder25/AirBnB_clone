@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
 class TestFileStorage(unittest.TestCase):
-    dict setUp(self):
+    def setUp(self):
         self.file_path = "file.json"
         self.storage = FileStorage()
 
